@@ -1,0 +1,9 @@
+def printUnorderedPairs(array):
+    # duyệt qua từng phần tử i trong mảng array.
+    for i in range(0,len(array)):
+        #  duyệt qua từng phần tử j trong mảng array bắt đầu từ phần tử ngay sau i.
+        for j in range(i+1,len(array)):
+            #  in ra cặp giá trị (array[i], array[j]) dưới dạng chuỗi.
+            print(str(array[i]) + "," + str(array[j]))
+# in ra cặp giá trị (array[i], array[j]) dưới dạng chuỗi.
+printUnorderedPairs([1,2,3,4])
