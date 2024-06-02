@@ -1,5 +1,5 @@
 import json
-
+import os
 # Mỗi mục từ là một từ tiếng Anh có nhiều nghĩa, mỗi nghĩa có ba phần: loại từ, nghĩa, ví dụ.
 class DictionaryEntry:
     def __init__(self, word, meanings):
@@ -28,6 +28,7 @@ class Dictionary:
             print("Từ điển đã được nạp từ tập tin văn bản.")
         except FileNotFoundError:
             print("Không tìm thấy tập tin. Tạo một từ điển mới.")
+        
 
     def save_to_file(self, filename):
         """Lưu từ điển vào tập tin văn bản"""
@@ -43,19 +44,18 @@ class Dictionary:
     # Kiểm tra xem từ đã tồn tại hay chưa
         for existing_entry in self.entries:
          if existing_entry.word == entry.word:
-            # Cập nhật nghĩa nếu từ đã tồn tại
-            existing_entry.meanings.extend(entry.meanings)
-            print(f"Đã cập nhật mục từ '{entry.word}' trong từ điển.")
+            print("Từ này đã tồn tại trong từ điển!")
             return
     # Thêm mục từ mới nếu chưa tồn tại
         self.entries.append(entry)
         
-        self.entries.sort(key=lambda x: x.word)
+        self.selection_sort()
 
         print(f"Đã thêm mục từ '{entry.word}' vào từ điển.")
         print(self.entries)
 
 
+    
     def remove_entry(self, word):
         """Loại bỏ một mục từ của từ điển"""
         for i, entry in enumerate(self.entries):
@@ -70,28 +70,40 @@ class Dictionary:
         for entry in self.entries:
             if entry.word == word:
                 for meaning in entry.meanings:
-                    print(f"- Loại từ: {meaning['word_type']}")
-                    print(f"  Nghĩa: {meaning['definition']}")
-                    print(f"  Ví dụ: {meaning['example']}")
+                    print(f"===== {word} =====")
+                    print(f"Loại từ: {meaning['word_type']}")
+                    print(f"Nghĩa: {meaning['definition']}")
+                    print(f"Ví dụ: {meaning['example']}")
+                    print(f"===============")
                 return
         print(f"Không tìm thấy mục từ '{word}' trong từ điển.")
+    def selection_sort(self):
+        entries = self.entries
+        n = len(entries)
+        for i in range(n):
+        # Tìm phần tử nhỏ nhất trong đoạn [i..n-1]
+            min_idx = i
+            for j in range(i + 1, n):
+                if entries[j].word < entries[min_idx].word:
+                    min_idx = j
+        
+        # Hoán đổi phần tử nhỏ nhất với phần tử đầu tiên trong đoạn [i..n-1]
+            entries[i], entries[min_idx] = entries[min_idx], entries[i]
+    
 
 def main():
     dictionary = Dictionary()
     filename = 'VUVANPHUC_mang.txt'  # Tên tập tin văn bản để lưu/nạp từ điển
-
-    # Nạp từ điển từ tập tin ngay khi bắt đầu
-    dictionary.load_from_file(filename)
-    
     while True:
-        print("\n--- Menu ---")
+        os.system("cls")
+        print("\n============== Menu ==============")
         print("1. Thêm một mục từ mới vào từ điển")
         print("2. Loại bỏ một mục từ khỏi từ điển")
         print("3. Tra cứu các nghĩa của một mục từ trong từ điển")
         print("4. Lưu từ điển vào tập tin văn bản")
         print("5. Nạp từ điển từ tập tin văn bản")
         print("6. Kết thúc chương trình")
-        
+        print("============== END ==============")
         choice = input("Chọn chức năng (1-6): ")
         
         if choice == "1":
@@ -108,23 +120,29 @@ def main():
                     'example': example
                 }
                 meanings.append(meaning)
-            
+            os.system("cls")
             entry = DictionaryEntry(word, meanings)
             dictionary.add_entry(entry)
+            os.system("pause")
         
         elif choice == "2":
             word = input("Nhập từ cần loại bỏ: ")
+            os.system("cls")
             dictionary.remove_entry(word)
+            os.system("pause")
         
         elif choice == "3":
             word = input("Nhập từ cần tra cứu: ")
+            os.system("cls")
             dictionary.lookup_word(word)
+            os.system("pause")
         
         elif choice == "4":
             dictionary.save_to_file(filename)
-        
+            os.system("pause")
         elif choice == "5":
             dictionary.load_from_file(filename)
+            os.system("pause")
         
         elif choice == "6":
             print("Kết thúc chương trình.")
@@ -132,6 +150,6 @@ def main():
         
         else:
             print("Lựa chọn không hợp lệ. Vui lòng thử lại.")
-
+       
 if __name__ == "__main__":
     main()

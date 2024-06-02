@@ -1,0 +1,3 @@
+apple	[{"definition": "tao", "word_type": "danh tu", "example": "adfsfadfsa"}]
+box	[{"definition": "âddas", "word_type": "danh tu", "example": "aaaa"}]
+cat	[{"definition": "meo", "word_type": "danh tu", "example": "cảarara"}]
